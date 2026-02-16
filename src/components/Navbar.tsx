@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -11,33 +12,34 @@ export default function Navbar() {
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
-      setEmail(data.user?.email ?? null);
+      if (data.user) {
+        setEmail(data.user.email || null);
+      }
     };
-
     getUser();
   }, []);
 
-  const logout = async () => {
+  const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push("/login");
   };
 
   return (
-    <nav className="bg-white border-b">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between">
-        <h1
-          className="font-bold text-xl cursor-pointer"
-          onClick={() => router.push("/dashboard")}
-        >
+    <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-800">
+      <div className="container flex justify-between items-center py-3">
+        <Link href="/" className="text-xl font-bold tracking-wide">
           DSA Sheet
-        </h1>
-
+        </Link>
         <div className="flex items-center gap-4">
-          {email && <span className="text-gray-600">{email}</span>}
+          {email && (
+            <span className="hidden sm:block text-sm text-gray-600 dark:text-gray-300">
+              {email}
+            </span>
+          )}
 
           <button
-            onClick={logout}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            onClick={handleLogout}
+            className="px-4 py-2 text-sm rounded-lg bg-black text-white hover:opacity-80 transition"
           >
             Logout
           </button>
