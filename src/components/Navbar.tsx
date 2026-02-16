@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-800">
       <div className="container flex justify-between items-center py-3">
-        <Link href="/" className="text-xl font-bold tracking-wide">
+        <Link href="/dashboard" className="text-xl font-bold tracking-wide">
           DSA Sheet
         </Link>
         <div className="flex items-center gap-4">
